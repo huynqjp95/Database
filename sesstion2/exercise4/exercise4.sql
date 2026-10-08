@@ -1,0 +1,6 @@
+CREATE TABLE users (
+	userCode VARCHAR(20) PRIMARY KEY,
+    userName VARCHAR(255) UNIQUE,
+    password VARCHAR(50) NOT NULL,
+    status VARCHAR(10) DEFAULT "ACTIVE" CHECK(status IN("ACTIVE","INACTIVE"))
+);
