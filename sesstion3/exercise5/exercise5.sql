@@ -1,15 +1,37 @@
-CREATE TABLE users (
-    userID VARCHAR(20) PRIMARY KEY,
-    username VARCHAR(255) UNIQUE,
-    email VARCHAR(255) UNIQUE,
-    password VARCHAR(50) NOT NULL,
-    status VARCHAR(50) DEFAULT ('ACTIVE')
+CREATE TABLE teachers (
+    teacherID VARCHAR(20) PRIMARY KEY,
+    fullName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE
 );
 
--- ALTER TABLE users
--- MODIFY COLUMN status VARCHAR(50) DEFAULT ('ACTIVE') CHECK(status IN('ACTIVE','DEACTIVE'));
+CREATE TABLE students (
+    studentID VARCHAR(20) PRIMARY KEY,
+    fullName VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE
+);
 
-ALTER TABLE users
-ADD CONSTRAINT chk_status CHECK (status IN('ACTIVE','DEACTIVE'));
+CREATE TABLE courses (
+    courseID VARCHAR(20) PRIMARY KEY,
+    courseName VARCHAR(255) NOT NULL,
+    price INT,
+    description TEXT,
+    teacherID VARCHAR(20) NOT NULL,
+    FOREIGN KEY (teacherID) REFERENCES teachers(teacherID)
+);
 
-DROP TABLE users;
+CREATE TABLE enrollments (
+    courseID VARCHAR(20),
+    studentID VARCHAR(20),
+    PRIMARY KEY (courseID,studentID),
+    FOREIGN KEY (courseID) REFERENCES courses(courseID),
+    FOREIGN KEY (studentID) REFERENCES students(studentID)
+);
+
+ALTER TABLE courses
+ADD CONSTRAINT chk_price CHECK (price>0);
+
+-- chay khi can
+DROP TABLE enrollments;
+
+
+
